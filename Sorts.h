@@ -100,6 +100,36 @@ class Sorts {
 
     return return_data;
   }
+  data insertion_sort_bin(std::vector<int>& arr) {
+    data return_data;
+    for (int i = 1; i < arr.size(); ++i) {
+      return_data.comparisons += 1;
+      int key = arr[i];
+      int lo, hi = i;
+      return_data.operations += 2;
+      while (lo < hi) {
+        return_data.comparisons += 1;
+        int mid = lo + (hi - lo);
+        return_data.operations += 1;
+        if (key < arr[mid]) {
+          return_data.comparisons += 1;
+          return_data.operations += 1;
+          hi = mid;
+        } else {
+          return_data.operations += 1;
+          lo = mid + 1;
+          return_data.operations += 1;
+          for (int j = i; j > lo; --j) {
+            return_data.comparisons += 1;
+            arr[j] = arr[j - 1];
+            arr[lo] = key;
+            return_data.operations += 3;
+          }
+        }
+      }
+    }
+    return return_data;
+  }
 };
 class Iter : protected Sorts {
  public:
