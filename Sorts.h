@@ -79,6 +79,27 @@ class Sorts {
     }
     return return_data;
   }
+  data insertion_sort(std::vector<int>& arr) {
+    data return_data;
+    int temp, item;
+    return_data.operations += 1;
+    for (int counter = 1; counter < arr.size(); counter++) {
+      return_data.comparisons += 1;
+      return_data.operations += 1;
+      temp = arr[counter];
+      item = counter - 1;
+      return_data.operations += 2;
+      while (item >= 0 && arr[item] > temp) {
+        return_data.comparisons += 2;
+        return_data.operations += 3;
+        arr[item + 1] = arr[item];
+        arr[item] = temp;
+        item--;
+      }
+    }
+
+    return return_data;
+  }
 };
 class Iter : protected Sorts {
  public:
