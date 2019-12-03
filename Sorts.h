@@ -29,7 +29,28 @@ class Sorts {
     getline(ss, s);
     return s;
   }
-  
+  data bubble_sort_fast(std::vector<int>& arr) {
+    data return_data;
+    bool b = true;
+    for (int i = 0; i < arr.size(); i++) {
+      b = true;
+      return_data.operations += 2;
+      return_data.comparisons += 1;
+      for (int j = arr.size() - 1; j >= (i + 1); j--) {
+        return_data.operations += 1;
+        return_data.comparisons += 1;
+        if (arr[j] < arr[j - 1]) {
+          return_data.comparisons += 1;
+          std::swap(arr[j], arr[j - 1]);
+          b = false;
+          return_data.operations += 4;
+        }
+      }
+      if (b) break;
+      return_data.comparisons += 1;
+    }
+    return return_data;
+  }
 };
 class Iter : protected Sorts {
  public:
