@@ -1,9 +1,19 @@
 #include "Sorts.h"
 
-int main() { 
-  int n = 0;
-  std::cin >> n;
-  Iter a(n);
+int main() {
+  std::vector<int> sizes;
+
+  sizes.push_back(10);
+  /*sizes.push_back(150);
+  sizes.push_back(300);
+  sizes.push_back(600);
+  sizes.push_back(1000);
+  sizes.push_back(10000);
+  */
+  for (auto i : sizes) {
+    Iter n(i);
+  }
+
   system("pause");
   return 0;
 }

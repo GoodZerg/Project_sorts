@@ -1,35 +1,53 @@
 #pragma once
 #include <iostream>
-#include <vector>
-#include <string>
 #include <sstream>
+#include <string>
+#include <vector>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define RANDOM_MIN -1000
+#define RANDOM_MAX 1000
 #define INT long long
 
 class Sorts {
- protected:
+ private:
+  std::vector<int> arr;
   struct data {
     INT operations = 0;
     INT comparisons = 0;
   };
+  void qsort(int b, int e) {
+    int l = b, r = e;
+    int piv =
+        arr[(l + r) / 2];  
+    while (l <= r) {
+      while (arr[l] < piv) l++;
+      while (arr[r] > piv) r--;
+      if (l <= r) std::swap(arr[l++], arr[r--]);
+    }
+    if (b < r) qsort(b, r);
+    if (e > l) qsort(l, e);
+  }
+
+ protected:
   int get_random_number(int min, int max) {
-    static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+    constexpr static const double fraction =
+        1.0 / (static_cast<double>(RAND_MAX) + 1.0);
     return static_cast<int>(rand() * fraction * (max - min + 1) + min);
   }
-  std::string print_vector(std::vector<int>& arr) {
+  std::string print_vector(std::vector<int> arr) {
     std::stringstream ss;
     std::string s;
     for (int i = 0; i < arr.size() - 1; ++i) {
-      ss <<  arr[i] << ",";
+      ss << arr[i] << ",";
     }
-    ss << arr[arr.size()-1];
+    ss << arr[arr.size() - 1];
 
     getline(ss, s);
     return s;
   }
-  data bubble_sort_slow(std::vector<int>& arr) {
+  data bubble_sort_slow(std::vector<int> arr) {
     data return_data;
     int tmp = 0;
     return_data.operations += 1;
@@ -48,10 +66,10 @@ class Sorts {
         }
       }
     }
-
+    std::cout << print_vector(arr) << std::endl;
     return return_data;
   }
-  data bubble_sort_fast(std::vector<int>& arr) {
+  data bubble_sort_fast(std::vector<int> arr) {
     data return_data;
     bool b = true;
     return_data.operations += 1;
@@ -71,15 +89,15 @@ class Sorts {
           return_data.operations += 4;
         }
       }
-      if (b){
+      if (b) {
         return_data.comparisons += 1;
         break;
       }
-     
     }
+    std::cout << print_vector(arr) << std::endl;
     return return_data;
   }
-  data insertion_sort(std::vector<int>& arr) {
+  data insertion_sort(std::vector<int> arr) {
     data return_data;
     int temp, item;
     return_data.operations += 1;
@@ -97,15 +115,16 @@ class Sorts {
         item--;
       }
     }
-
+    std::cout << print_vector(arr) << std::endl;
     return return_data;
   }
-  data insertion_sort_bin(std::vector<int>& arr) {
+  /*
+  data insertion_sort_bin(std::vector<int> arr) {
     data return_data;
     for (int i = 1; i < arr.size(); ++i) {
       return_data.comparisons += 1;
       int key = arr[i];
-      int lo, hi = i;
+      int lo = 0, hi = i;
       return_data.operations += 2;
       while (lo < hi) {
         return_data.comparisons += 1;
@@ -128,14 +147,67 @@ class Sorts {
         }
       }
     }
+    std::cout << print_vector(arr) << std::endl;
+    return return_data;
+  }
+  */
+
+  data qsort_ret(std::vector<int> arr, int n) {
+    data return_data;
+    this->arr = arr;
+    qsort( 0, n-1);
+    std::cout << print_vector(this->arr) << std::endl;
+    return return_data;
+  }
+
+ ///TODO bin
+
+  data bubble_sort_bin(std::vector<int> arr) {
+    data return_data;
+
+    int tmp = 0;
+    bool b = true;
+    for (int i = 0; i < arr.size(); i++) {
+      b = true;
+      for (int j = i; j < arr.size() - 1 - i; j++) {
+        return_data.comparisons += 1;
+        if (arr[j] > arr[j + 1]) {
+          std::swap(arr[j], arr[j + 1]);
+          b = false;
+          return_data.operations += 1;
+        }
+      }
+      for (int j = arr.size() - 2 - i; j >= (i + 1); j--) {
+        return_data.comparisons += 1;
+        if (arr[j] < arr[j - 1]) {
+          std::swap(arr[j], arr[j - 1]);
+          b = false;
+          return_data.operations += 1;
+        }
+      }
+      if (b) break;
+    }
+    std::cout << print_vector(arr) << std::endl;
     return return_data;
   }
 };
 class Iter : protected Sorts {
  public:
-  Iter(const int n) { 
-    std::vector<int> b(n,0);
-    std::cout << print_vector(b) << std::endl;
+  Iter(const int n) {
+    std::vector<int> start_data;
+    for (size_t i = 0; i < n; i++) {
+      start_data.push_back(get_random_number(RANDOM_MIN, RANDOM_MAX));
+    }
+ //   std::cout << print_vector(start_data) << std::endl;
+  //  bubble_sort_slow(start_data);
+  //  std::cout << print_vector(start_data) << std::endl;
+  //  bubble_sort_fast(start_data);
+  //  std::cout << print_vector(start_data) << std::endl;
+  //  insertion_sort(start_data);
+   // std::cout << print_vector(start_data) << std::endl;
+   // bubble_sort_bin(start_data);
+    std::cout << print_vector(start_data) << std::endl;
+    qsort_ret(start_data, n);
+    // insertion_sort_bin(start_data);
   }
-  
 };
