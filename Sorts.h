@@ -17,16 +17,33 @@ class Sorts {
     INT operations = 0;
     INT comparisons = 0;
   };
+  data return_data;
   void qsort(int b, int e) {
     int l = b, r = e;
     int piv =
         arr[(l + r) / 2];  
+    return_data.operations += 3;
     while (l <= r) {
-      while (arr[l] < piv) l++;
-      while (arr[r] > piv) r--;
-      if (l <= r) std::swap(arr[l++], arr[r--]);
+      return_data.comparisons += 1;
+      while (arr[l] < piv){ 
+        return_data.comparisons += 1;
+        l++;
+        return_data.operations += 1;
+      }
+      while (arr[r] > piv){ 
+        return_data.comparisons += 1;
+        r--;
+        return_data.operations += 1;
+      }
+      return_data.comparisons += 1;
+      if (l <= r) {
+        std::swap(arr[l++], arr[r--]);
+        return_data.operations += 3;
+      }
     }
+    return_data.comparisons += 1;
     if (b < r) qsort(b, r);
+    return_data.comparisons += 1;
     if (e > l) qsort(l, e);
   }
 
@@ -153,11 +170,10 @@ class Sorts {
   */
 
   data qsort_ret(std::vector<int> arr, int n) {
-    data return_data;
     this->arr = arr;
     qsort( 0, n-1);
     std::cout << print_vector(this->arr) << std::endl;
-    return return_data;
+    return this->return_data;
   }
 
  ///TODO bin
