@@ -1,5 +1,9 @@
-#include <Sorts.h>
+#include "Sorts.h"
 
 int main() { 
-  return 0; 
+  int n = 0;
+  std::cin >> n;
+  Iter a(n);
+  system("pause");
+  return 0;
 }
