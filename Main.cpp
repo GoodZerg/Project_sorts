@@ -12,7 +12,8 @@ int main() {
   sizes.push_back(10000);
   */
   for (auto i : sizes) {
-    interface n(i);
+    interface* n = new interface(i);
+    delete n;
   }
 
   system("pause");

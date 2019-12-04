@@ -13,13 +13,15 @@
 
 class Sorts {
  private:
-  std::vector<int> arr;
+
   struct data {
     INT operations = 0;
     INT comparisons = 0;
   };
+  std::vector<int> arr;
   data return_data;
-  int middle(int a, int b, int c) {
+
+  int middle                 (int a, int b,  int c) {
     if (a >= b && a <= c || a <= b && a >= c) {
       return a;
     }
@@ -28,7 +30,7 @@ class Sorts {
     }
     return c;
   }
-  void qsort(int b, int e) {
+  void qsort                 (int b,         int e) {
     int l = b, r = e;
     int piv = middle(arr[l], arr[r],
            arr[(l + r) / 2]);
@@ -56,13 +58,45 @@ class Sorts {
     return_data.comparisons += 1;
     if (e > l) qsort(l, e);
   }
+  std::vector<int> merge     (std::vector<int> a, 
+                              std::vector<int> b){
+    std::vector<int> res;
+    int i = 0, j = 0;
+    while (i < a.size() && j < b.size()) {
+      return_data.comparisons += 3;
+      if (a[i] < b[j]) {
+        res.push_back(a[i]);
+        i++;
+      } else {
+        res.push_back(b[j]);
+        j++;
+      }
+      return_data.operations += 2;
+    }
+    while (i < a.size()) {
+      return_data.comparisons += 1;
+      res.push_back(a[i]);
+      i++;
+      return_data.operations++;
+    }
+    while (j < b.size()) {
+      return_data.comparisons += 1;
+      res.push_back(b[j]);
+      j++;
+      return_data.operations++;
+    }
+    return res;
+  }
+
  protected:
-  int get_random_number(int min, int max) {
+
+  data return_data_merge;
+  int get_random_number      (int min,     int max) {
     static const double fraction =
         1.0 / (static_cast<double>(RAND_MAX) + 1.0);
     return static_cast<int>(rand() * fraction * (max - min + 1) + min);
   }
-  std::string print_vector(std::vector<int> arr) {
+  std::string print_vector   (std::vector<int> arr) {
     std::stringstream ss;
     std::string s;
     for (int i = 0; i < arr.size() - 1; ++i) {
@@ -73,7 +107,7 @@ class Sorts {
     getline(ss, s);
     return s;
   }
-  data bubble_sort_slow(std::vector<int> arr) {
+  data bubble_sort_slow      (std::vector<int> arr) {
     data return_data;
     int tmp = 0;
     return_data.operations += 1;
@@ -94,7 +128,7 @@ class Sorts {
     }
     return return_data;
   }
-  data bubble_sort_fast(std::vector<int> arr) {
+  data bubble_sort_fast      (std::vector<int> arr) {
     data return_data;
     bool b = true;
     return_data.operations += 1;
@@ -121,7 +155,7 @@ class Sorts {
     }
     return return_data;
   }
-  data insertion_sort(std::vector<int> arr) {
+  data insertion_sort        (std::vector<int> arr) {
     data return_data;
     int temp, item;
     return_data.operations += 1;
@@ -141,7 +175,7 @@ class Sorts {
     }
     return return_data;
   }
-  data binary_insert_sort(std::vector<int> arr) {
+  data binary_insert_sort    (std::vector<int> arr) {
     data return_data;
     int n = arr.size();
     for (int i = 1; i < n; i++) {
@@ -163,21 +197,17 @@ class Sorts {
       arr.insert(arr.begin() + r, t);
       return_data.operations += n - r;
     }
-    std::cout << print_vector(arr)<< std::endl;
     return return_data;
   }
-  data qsort_ret(std::vector<int> arr) {
+  data qsort_ret             (std::vector<int> arr) {
     this->arr = arr;
     qsort( 0, arr.size() - 1);
-    std::cout << arr.size() << ": " << this->return_data.comparisons << ", "
-              << this->return_data.operations << std::endl;
-    std::cout << print_vector(this->arr) << std::endl;
     data return_data = this->return_data;
     this->return_data.comparisons = 0;
     this->return_data.operations = 0;
     return return_data;
   }
-  data bubble_sort_bin(std::vector<int> arr) {
+  data bubble_sort_bin       (std::vector<int> arr) {
     data return_data;
     int tmp = 0;
     bool b = true;
@@ -213,20 +243,45 @@ class Sorts {
     }
     return return_data;
   }
+  // i hate next shit-sort
+  std::vector<int> merge_sort(std::vector<int> arr) {
+    int n = arr.size();
+    return_data_merge = return_data;
+    if (n <= 1) return arr;
+    int m = n / 2;
+    std::vector<int> left, right;
+    for (int i = 0; i < n; i++) {
+      return_data.comparisons++;
+      if (i < m)
+        left.push_back(arr[i]);
+      else
+        right.push_back(arr[i]);
+      return_data.operations++;
+    }
+    left = merge_sort(left);
+    right = merge_sort(right);
+    return_data_merge = return_data;
+    return merge(left, right);
+  }
 };
 class interface : protected Sorts {
  public:
+
   interface(const int n) {
     std::vector<int> start_data;
+
     for (size_t i = 0; i < n; i++) {
       start_data.push_back(get_random_number(RANDOM_MIN, RANDOM_MAX));
     }
-    std::cout << print_vector(start_data) << std::endl;
-    binary_insert_sort(start_data);
-    qsort_ret(start_data);
-    bubble_sort_slow(start_data);
-    bubble_sort_fast(start_data);
-    bubble_sort_bin(start_data);
-    insertion_sort(start_data); 
+
+    std::cout << "start data is: " << print_vector(start_data) << std::endl;
+
+    binary_insert_sort  (start_data);
+    qsort_ret           (start_data);
+    bubble_sort_slow    (start_data);
+    bubble_sort_fast    (start_data);
+    bubble_sort_bin     (start_data);
+    insertion_sort      (start_data);
+    merge_sort          (start_data); // return data in "return_data_merge"
   }
 };
