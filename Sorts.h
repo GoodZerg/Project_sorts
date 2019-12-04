@@ -141,46 +141,41 @@ class Sorts {
     }
     return return_data;
   }
-  /*
-  data insertion_sort_bin(std::vector<int> arr) {
+  data binary_insert_sort(std::vector<int> arr) {
     data return_data;
-    for (int i = 1; i < arr.size(); ++i) {
-      return_data.comparisons += 1;
-      int key = arr[i];
-      int lo = 0, hi = i;
-      return_data.operations += 2;
-      while (lo < hi) {
-        return_data.comparisons += 1;
-        int mid = lo + (hi - lo);
-        return_data.operations += 1;
-        if (key < arr[mid]) {
-          return_data.comparisons += 1;
-          return_data.operations += 1;
-          hi = mid;
-        } else {
-          return_data.operations += 1;
-          lo = mid + 1;
-          return_data.operations += 1;
-          for (int j = i; j > lo; --j) {
-            return_data.comparisons += 1;
-            arr[j] = arr[j - 1];
-            arr[lo] = key;
-            return_data.operations += 3;
-          }
-        }
+    int n = arr.size();
+    for (int i = 1; i < n; i++) {
+      return_data.comparisons++;
+      int l = -1, r = i;
+      while (r - l > 1) {
+        return_data.comparisons++;
+        int m = (l + r) / 2;
+        return_data.comparisons++;
+        if (arr[m] < arr[i])
+          l = m;
+        else
+          r = m;
+        return_data.operations++;
       }
+      int t = arr[i];
+      arr.erase(arr.begin() + i);
+      return_data.operations += n - i;
+      arr.insert(arr.begin() + r, t);
+      return_data.operations += n - r;
     }
-    std::cout << print_vector(arr) << std::endl;
+    std::cout << print_vector(arr)<< std::endl;
     return return_data;
   }
-  */
   data qsort_ret(std::vector<int> arr) {
     this->arr = arr;
     qsort( 0, arr.size() - 1);
     std::cout << arr.size() << ": " << this->return_data.comparisons << ", "
               << this->return_data.operations << std::endl;
     std::cout << print_vector(this->arr) << std::endl;
-    return this->return_data;
+    data return_data = this->return_data;
+    this->return_data.comparisons = 0;
+    this->return_data.operations = 0;
+    return return_data;
   }
   data bubble_sort_bin(std::vector<int> arr) {
     data return_data;
@@ -227,6 +222,7 @@ class interface : protected Sorts {
       start_data.push_back(get_random_number(RANDOM_MIN, RANDOM_MAX));
     }
     std::cout << print_vector(start_data) << std::endl;
+    binary_insert_sort(start_data);
     qsort_ret(start_data);
     bubble_sort_slow(start_data);
     bubble_sort_fast(start_data);
