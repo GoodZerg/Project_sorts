@@ -7,8 +7,8 @@
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define RANDOM_MIN -1000
-#define RANDOM_MAX 1000
+#define RANDOM_MIN -10000
+#define RANDOM_MAX 10000
 #define INT long long
 
 class Sorts {
@@ -19,10 +19,19 @@ class Sorts {
     INT comparisons = 0;
   };
   data return_data;
+  int middle(int a, int b, int c) {
+    if (a >= b && a <= c || a <= b && a >= c) {
+      return a;
+    }
+    if (b >= a && b <= c || b >= c && b <= a) {
+      return b;
+    }
+    return c;
+  }
   void qsort(int b, int e) {
     int l = b, r = e;
-    int piv =
-        arr[(l + r) / 2];  
+    int piv = middle(arr[l], arr[r],
+           arr[(l + r) / 2]);
     return_data.operations += 3;
     while (l <= r) {
       return_data.comparisons += 1;
@@ -49,7 +58,7 @@ class Sorts {
   }
  protected:
   int get_random_number(int min, int max) {
-    constexpr static const double fraction =
+    static const double fraction =
         1.0 / (static_cast<double>(RAND_MAX) + 1.0);
     return static_cast<int>(rand() * fraction * (max - min + 1) + min);
   }
@@ -165,9 +174,12 @@ class Sorts {
     return return_data;
   }
   */
-  data qsort_ret(std::vector<int> arr, int n) {
+  data qsort_ret(std::vector<int> arr) {
     this->arr = arr;
-    qsort( 0, n-1);
+    qsort( 0, arr.size() - 1);
+    std::cout << arr.size() << ": " << this->return_data.comparisons << ", "
+              << this->return_data.operations << std::endl;
+    std::cout << print_vector(this->arr) << std::endl;
     return this->return_data;
   }
   data bubble_sort_bin(std::vector<int> arr) {
@@ -207,18 +219,18 @@ class Sorts {
     return return_data;
   }
 };
-class Iter : protected Sorts {
+class interface : protected Sorts {
  public:
-  Iter(const int n) {
+  interface(const int n) {
     std::vector<int> start_data;
     for (size_t i = 0; i < n; i++) {
       start_data.push_back(get_random_number(RANDOM_MIN, RANDOM_MAX));
     }
     std::cout << print_vector(start_data) << std::endl;
+    qsort_ret(start_data);
     bubble_sort_slow(start_data);
     bubble_sort_fast(start_data);
     bubble_sort_bin(start_data);
     insertion_sort(start_data); 
-    qsort_ret(start_data, n);
   }
 };
