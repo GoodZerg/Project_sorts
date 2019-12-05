@@ -177,9 +177,9 @@ class Sorts {
       }
       int t = arr[i];
       arr.erase(arr.begin() + i);
-      return_data.operations += n - i;
+      return_data.operations += i;
       arr.insert(arr.begin() + r, t);
-      return_data.operations += n - r;
+      return_data.operations += r;
     }
     return return_data;
   }
