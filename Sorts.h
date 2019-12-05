@@ -11,6 +11,9 @@
 #define RANDOM_MAX 10000
 #define INT long long
 
+std::ofstream file_out_op("operations.csv");
+std::ofstream file_out_co("comparisons.csv");
+
 struct data {
   INT operations = 0;
   INT comparisons = 0;
@@ -77,7 +80,6 @@ class Sorts {
     }
     return res;
   }
-
   std::vector<int> merge_sort(std::vector<int> arr) {
     int n = arr.size();
     if (n <= 1) return arr;
@@ -105,7 +107,7 @@ class Sorts {
     std::stringstream ss;
     std::string s;
     for (int i = 0; i < arr.size() - 1; ++i) {
-      ss << arr[i] << ",";
+      ss << arr[i] << ";";
     }
     ss << arr[arr.size() - 1];
 
@@ -231,20 +233,12 @@ class interface : protected Sorts {
   interface(const int n) {
     std::vector<int> start_data;
     std::vector<data> vector_of_data;
-    std::vector<std::string> vector_of_sorts_names;
+    
     for (size_t i = 0; i < n; i++) {
       start_data.push_back(get_random_number(RANDOM_MIN, RANDOM_MAX));
     }
 
     std::cout << "start data is: " << print_vector(start_data) << std::endl;
-
-    vector_of_sorts_names.push_back("binary_insert_sort");
-    vector_of_sorts_names.push_back("qsort");
-    vector_of_sorts_names.push_back("bubble_sort_slow");
-    vector_of_sorts_names.push_back("bubble_sort_fast");
-    vector_of_sorts_names.push_back("bubble_sort_bin");
-    vector_of_sorts_names.push_back("insertion_sort");
-    vector_of_sorts_names.push_back("merge_sort");
 
     vector_of_data.push_back(binary_insert_sort(start_data));
     vector_of_data.push_back(qsort_ret(start_data));
@@ -255,10 +249,20 @@ class interface : protected Sorts {
     vector_of_data.push_back(merge_sort_ret(start_data));
 
     for (size_t i = 0; i < 7; i++) {
-      std::cout << vector_of_sorts_names[i]
-                << "is: " << vector_of_data[i].comparisons
+      std::cout << "is: " << vector_of_data[i].comparisons
                 << " comprasions, and " << vector_of_data[i].operations
                 << " operations \n";
     }
+    
+    file_out_co << n << ";";
+    file_out_op << n << ";";
+
+    for (size_t i = 0; i < 7; i++) {
+      file_out_co << vector_of_data[i].comparisons << ";";
+      file_out_op << vector_of_data[i].operations << ";";
+    }
+
+    file_out_co << "\n";
+    file_out_op << "\n";
   }
 };

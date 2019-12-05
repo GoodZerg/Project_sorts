@@ -1,8 +1,8 @@
 ﻿  Main.cpp
-c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(82): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(119): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(134): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(167): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(188): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(208): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(84): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(121): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(136): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(169): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(190): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\nik\source\repos\project_sorts\project_sorts\sorts.h(210): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   Project_sorts.vcxproj -> C:\Users\Nik\source\repos\Project_sorts\x64\Debug\Project_sorts.exe
