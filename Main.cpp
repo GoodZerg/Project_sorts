@@ -6,8 +6,8 @@ int main() {
   sizes.push_back(500);
   sizes.push_back(800);
   sizes.push_back(1000);
-  sizes.push_back(2700);
   sizes.push_back(5000);
+  sizes.push_back(100000);
 
   std::vector<std::string> vector_of_sorts_names;
 
@@ -35,6 +35,7 @@ int main() {
     delete n;
   }
 
-  system("pause");
+  #define __PAUSE system("pause");
+  __PAUSE
   return 0;
 }
